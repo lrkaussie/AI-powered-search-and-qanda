@@ -1,0 +1,94 @@
+2025-02-15 05:40:32,094 - app.core.logging - INFO - Logging configured with level: INFO
+2025-02-15 05:40:32,277 - app.api.documents - INFO - Processing upload request for file: test.txt
+2025-02-15 05:40:32,284 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 200 OK"
+2025-02-15 05:40:32,305 - app.api.documents - INFO - Processing upload request for file: empty.txt
+2025-02-15 05:40:32,309 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 200 OK"
+2025-02-15 05:40:32,625 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:40:32,632 - app.api.documents - INFO - Retrieving document: nonexistent.txt
+2025-02-15 05:40:32,633 - app.api.documents - ERROR - Document retrieval error: Document not found: nonexistent.txt
+2025-02-15 05:40:32,635 - httpx - INFO - HTTP Request: GET http://testserver/documents/nonexistent.txt "HTTP/1.1 404 Not Found"
+2025-02-15 05:40:34,171 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:40:34,180 - httpx - INFO - HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2025-02-15 05:40:34,188 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:43:17,668 - app.core.logging - INFO - Logging configured with level: INFO
+2025-02-15 05:43:17,791 - app.api.documents - INFO - Processing upload request for file: test.txt
+2025-02-15 05:43:17,796 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 200 OK"
+2025-02-15 05:43:17,805 - app.api.documents - INFO - Processing upload request for file: empty.txt
+2025-02-15 05:43:17,806 - app.api.documents - ERROR - Document processing error: Empty file is not allowed
+2025-02-15 05:43:17,808 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 400 Bad Request"
+2025-02-15 05:43:17,816 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:43:17,823 - app.api.documents - INFO - Retrieving document: nonexistent.txt
+2025-02-15 05:43:17,824 - app.api.documents - ERROR - Document retrieval error: Document not found: nonexistent.txt
+2025-02-15 05:43:17,826 - httpx - INFO - HTTP Request: GET http://testserver/documents/nonexistent.txt "HTTP/1.1 404 Not Found"
+2025-02-15 05:43:19,288 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:43:19,297 - httpx - INFO - HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2025-02-15 05:43:19,306 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:44:46,633 - app.core.logging - INFO - Logging configured with level: INFO
+2025-02-15 05:44:46,697 - app.api.documents - INFO - Processing upload request for file: test.txt
+2025-02-15 05:44:46,701 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 200 OK"
+2025-02-15 05:44:46,713 - app.api.documents - INFO - Processing upload request for file: empty.txt
+2025-02-15 05:44:46,714 - app.api.documents - ERROR - Document processing error: Empty file is not allowed
+2025-02-15 05:44:46,715 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 400 Bad Request"
+2025-02-15 05:44:46,723 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:44:46,730 - app.api.documents - INFO - Retrieving document: nonexistent.txt
+2025-02-15 05:44:46,732 - app.api.documents - ERROR - Document retrieval error: Document not found: nonexistent.txt
+2025-02-15 05:44:46,733 - httpx - INFO - HTTP Request: GET http://testserver/documents/nonexistent.txt "HTTP/1.1 404 Not Found"
+2025-02-15 05:44:47,343 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:44:47,344 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:45:13,574 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:45:13,599 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:45:13,600 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:45:17,538 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:45:17,553 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:45:17,554 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:45:21,781 - app.api.documents - INFO - Processing search query: test query
+2025-02-15 05:45:21,787 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 200 OK"
+2025-02-15 05:45:21,795 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:45:21,802 - httpx - INFO - HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2025-02-15 05:45:21,809 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:45:40,219 - app.core.logging - INFO - Logging configured with level: INFO
+2025-02-15 05:45:40,282 - app.api.documents - INFO - Processing upload request for file: test.txt
+2025-02-15 05:45:40,287 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 200 OK"
+2025-02-15 05:45:40,297 - app.api.documents - INFO - Processing upload request for file: empty.txt
+2025-02-15 05:45:40,298 - app.api.documents - ERROR - Document processing error: Empty file is not allowed
+2025-02-15 05:45:40,300 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 400 Bad Request"
+2025-02-15 05:45:40,309 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:45:40,314 - app.api.documents - INFO - Retrieving document: nonexistent.txt
+2025-02-15 05:45:40,315 - app.api.documents - ERROR - Document retrieval error: Document not found: nonexistent.txt
+2025-02-15 05:45:40,317 - httpx - INFO - HTTP Request: GET http://testserver/documents/nonexistent.txt "HTTP/1.1 404 Not Found"
+2025-02-15 05:45:40,574 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:45:40,575 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:45:44,211 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:45:44,225 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:45:44,226 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:45:47,245 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:45:47,259 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:45:47,260 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:45:52,023 - app.api.documents - INFO - Processing search query: test query
+2025-02-15 05:45:52,028 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 200 OK"
+2025-02-15 05:45:52,036 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:45:52,044 - httpx - INFO - HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2025-02-15 05:45:52,052 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:48:11,442 - app.core.logging - INFO - Logging configured with level: INFO
+2025-02-15 05:48:11,503 - app.api.documents - INFO - Processing upload request for file: test.txt
+2025-02-15 05:48:11,509 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 200 OK"
+2025-02-15 05:48:11,519 - app.api.documents - INFO - Processing upload request for file: empty.txt
+2025-02-15 05:48:11,520 - app.api.documents - ERROR - Document processing error: Empty file is not allowed
+2025-02-15 05:48:11,522 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 400 Bad Request"
+2025-02-15 05:48:11,530 - httpx - INFO - HTTP Request: POST http://testserver/documents/upload "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:48:11,536 - app.api.documents - INFO - Retrieving document: nonexistent.txt
+2025-02-15 05:48:11,537 - app.api.documents - ERROR - Document retrieval error: Document not found: nonexistent.txt
+2025-02-15 05:48:11,539 - httpx - INFO - HTTP Request: GET http://testserver/documents/nonexistent.txt "HTTP/1.1 404 Not Found"
+2025-02-15 05:48:11,809 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:48:11,811 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:48:17,022 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:48:17,036 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:48:17,037 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:48:20,101 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 422 Unprocessable Entity"
+2025-02-15 05:48:20,115 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-02-15 05:48:20,116 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en
+2025-02-15 05:48:24,697 - app.api.documents - INFO - Processing search query: test query
+2025-02-15 05:48:24,702 - httpx - INFO - HTTP Request: POST http://testserver/documents/search "HTTP/1.1 200 OK"
+2025-02-15 05:48:24,710 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2025-02-15 05:48:24,718 - httpx - INFO - HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2025-02-15 05:48:24,726 - httpx - INFO - HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"

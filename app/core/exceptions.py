@@ -1,21 +1,24 @@
-from fastapi import HTTPException, Request
-from fastapi.responses import JSONResponse
-from typing import Union
+from fastapi import HTTPException
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
-class DocumentProcessingError(HTTPException):
-    def __init__(self, detail: str):
-        super().__init__(status_code=400, detail=detail)
+class DocumentProcessingError(Exception):
+    """Raised when there's an error processing a document."""
+    pass
 
-class RAGError(HTTPException):
-    def __init__(self, detail: str):
-        super().__init__(status_code=500, detail=detail)
+class RAGError(Exception):
+    """Raised when there's an error in the RAG pipeline."""
+    pass
 
-async def exception_handler(request: Request, exc: Union[DocumentProcessingError, RAGError]):
+async def exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    """Generic exception handler for custom exceptions."""
+    status_code = 500
+    if isinstance(exc, DocumentProcessingError):
+        status_code = 400
+    elif isinstance(exc, RAGError):
+        status_code = 422
+    
     return JSONResponse(
-        status_code=exc.status_code,
-        content={
-            "error": exc.detail,
-            "type": exc.__class__.__name__,
-            "path": request.url.path
-        }
+        status_code=status_code,
+        content={"detail": str(exc)}
     ) 
