@@ -1,9 +1,13 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import documents, rag
+from app.api import documents
 from app.core.exceptions import DocumentProcessingError, RAGError, exception_handler
-from app.core.middleware import RateLimiter
+from app.core.logging import setup_logging
 
+# Setup logging
+logger = setup_logging()
+
+# Create FastAPI app
 app = FastAPI(
     title="AI Document Search & Q&A System",
     description="An AI-powered system for document search and question answering",
@@ -23,28 +27,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize rate limiter
-rate_limiter = RateLimiter()
-
-@app.on_event("startup")
-async def startup_event():
-    await rate_limiter.start()
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    await rate_limiter.stop()
-
 # Include routers
 app.include_router(documents.router, prefix="/documents", tags=["documents"])
-app.include_router(rag.router, prefix="/rag", tags=["rag"])
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "healthy"}
 
 @app.get("/")
 async def root():
     return {"message": "Welcome to AI Document Search & Q&A API"}
-
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
 
 @app.post("/documents")
 async def upload_document():

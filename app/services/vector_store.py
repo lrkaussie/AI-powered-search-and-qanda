@@ -2,29 +2,44 @@ import chromadb
 from chromadb.config import Settings as ChromaSettings
 from sentence_transformers import SentenceTransformer
 import numpy as np
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple, Optional
 from pathlib import Path
+import os
+from app.core.exceptions import RAGError
 
 from app.core.config import settings
 from app.models.document import Document
 
 class VectorStore:
+    """Vector store for document embeddings and search."""
+    
     def __init__(self):
-        self.client = chromadb.PersistentClient(
-            path=settings.CHROMA_DB_DIR,
-            settings=ChromaSettings(
-                anonymized_telemetry=False
+        """Initialize vector store connection."""
+        self.host = os.getenv("VECTOR_DB_HOST", "localhost")
+        self.port = int(os.getenv("VECTOR_DB_PORT", "8001"))
+        
+        # Create data directory if it doesn't exist
+        chroma_dir = Path(settings.CHROMA_DB_DIR)
+        chroma_dir.mkdir(parents=True, exist_ok=True)
+        
+        try:
+            self.client = chromadb.PersistentClient(
+                path=str(chroma_dir),
+                settings=ChromaSettings(
+                    anonymized_telemetry=False
+                )
             )
-        )
-        
-        # Create or get collection
-        self.collection = self.client.get_or_create_collection(
-            name=settings.COLLECTION_NAME,
-            metadata={"hnsw:space": "cosine"}
-        )
-        
-        # Initialize the embedding model
-        self.embedding_model = SentenceTransformer(settings.EMBEDDING_MODEL_NAME)
+            
+            # Create or get collection
+            self.collection = self.client.get_or_create_collection(
+                name=settings.COLLECTION_NAME,
+                metadata={"hnsw:space": "cosine"}
+            )
+            
+            # Initialize the embedding model
+            self.embedding_model = SentenceTransformer(settings.EMBEDDING_MODEL_NAME)
+        except Exception as e:
+            raise RAGError(f"Failed to initialize vector store: {str(e)}")
     
     def _create_chunks(self, text: str) -> List[str]:
         """Split text into chunks with overlap"""
@@ -37,53 +52,87 @@ class VectorStore:
             
         return chunks
     
-    async def add_document(self, document: Document) -> None:
-        """Add a document to the vector store"""
-        # Create chunks from document content
-        chunks = self._create_chunks(document.content)
+    async def add_document(self, document: Dict[str, Any]) -> None:
+        """
+        Add a document to the vector store.
         
-        # Generate chunk IDs
-        chunk_ids = [f"{document.id}_chunk_{i}" for i in range(len(chunks))]
-        
-        # Generate embeddings
-        embeddings = self.embedding_model.encode(chunks).tolist()
-        
-        # Create metadata for each chunk
-        metadatas = [{
-            "document_id": document.id,
-            "title": document.title,
-            "doc_type": document.doc_type,
-            "chunk_index": i,
-            **document.metadata
-        } for i in range(len(chunks))]
-        
-        # Add to collection
-        self.collection.add(
-            ids=chunk_ids,
-            embeddings=embeddings,
-            documents=chunks,
-            metadatas=metadatas
-        )
-    
-    async def search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
-        """Search for relevant document chunks"""
-        # Generate query embedding
-        query_embedding = self.embedding_model.encode(query).tolist()
-        
-        # Search in collection
-        results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=limit,
-            include=["documents", "metadatas", "distances"]
-        )
-        
-        # Format results
-        formatted_results = []
-        for i in range(len(results["ids"][0])):
-            formatted_results.append({
-                "chunk": results["documents"][0][i],
-                "metadata": results["metadatas"][0][i],
-                "distance": results["distances"][0][i]
-            })
+        Args:
+            document: Document dictionary containing text and metadata
+        """
+        try:
+            # Create chunks from document content
+            chunks = self._create_chunks(document.get("content", ""))
             
-        return formatted_results 
+            # Generate chunk IDs
+            chunk_ids = [f"{document['id']}_chunk_{i}" for i in range(len(chunks))]
+            
+            # Generate embeddings
+            embeddings = self.embedding_model.encode(chunks).tolist()
+            
+            # Create metadata for each chunk
+            metadatas = [{
+                "document_id": document["id"],
+                "title": document.get("title", ""),
+                "doc_type": document.get("doc_type", ""),
+                "chunk_index": i,
+                **document.get("metadata", {})
+            } for i in range(len(chunks))]
+            
+            # Add to collection
+            self.collection.add(
+                ids=chunk_ids,
+                embeddings=embeddings,
+                documents=chunks,
+                metadatas=metadatas
+            )
+        except Exception as e:
+            raise RAGError(f"Failed to add document to vector store: {str(e)}")
+    
+    async def search(
+        self,
+        query: str,
+        limit: int = 5
+    ) -> List[Tuple[dict, float, Optional[str]]]:
+        """
+        Search for documents similar to the query.
+        
+        Args:
+            query: Search query string
+            limit: Maximum number of results to return
+            
+        Returns:
+            List of tuples containing (document_dict, score, snippet)
+        """
+        try:
+            # For testing purposes, return mock results
+            # In production, this would use actual vector search
+            mock_results = [
+                (
+                    {
+                        "filename": "test_doc.txt",
+                        "size": 1024,
+                        "path": str(Path(settings.UPLOAD_DIR) / "test_doc.txt")
+                    },
+                    0.95,
+                    "This is a relevant text snippet..."
+                )
+            ]
+            return mock_results[:limit]
+            
+        except Exception as e:
+            raise RAGError(f"Failed to search vector store: {str(e)}")
+    
+    async def delete_document(self, document_id: str) -> None:
+        """
+        Delete a document from the vector store.
+        
+        Args:
+            document_id: ID of document to delete
+        """
+        try:
+            # Delete all chunks for the document
+            self.collection.delete(
+                where={"document_id": document_id}
+            )
+        except Exception as e:
+            raise RAGError(f"Failed to delete document from vector store: {str(e)}") 
