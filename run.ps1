@@ -9,4 +9,4 @@ Set-Location frontend
 streamlit run app.py --server.port 8501
 
 # Clean up the backend process when done
-Stop-Process -Id $backend.Id 
+Stop-Process -Id $backend.Id

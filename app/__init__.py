@@ -1,5 +1,3 @@
-"""
-AI Document Search & Q&A System
-"""
+"""AI-powered document search and Q&A application."""
 
-__version__ = "1.0.0" 
+__version__ = "1.0.0"
