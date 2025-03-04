@@ -10,4 +10,4 @@ timeout /t 5 /nobreak
 cd frontend && streamlit run app.py --server.port 8501
 
 :: Note: Process cleanup will need to be done manually in Windows
-:: You can use Task Manager or `taskkill` to stop the uvicorn process 
+:: You can use Task Manager or `taskkill` to stop the uvicorn process

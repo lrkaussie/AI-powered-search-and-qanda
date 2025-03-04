@@ -11,4 +11,4 @@ sleep 5
 cd frontend && streamlit run app.py --server.port 8501
 
 # If frontend exits, kill the backend
-kill $BACKEND_PID 
+kill $BACKEND_PID

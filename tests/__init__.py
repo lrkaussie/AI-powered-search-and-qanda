@@ -1,1 +1,1 @@
-"""Test suite for the document search system.""" 
+"""Test suite for the document search system."""
